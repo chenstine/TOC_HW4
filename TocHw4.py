@@ -3,7 +3,11 @@
 # Theory of computation hw4 103.6.21
 # 陳亭宇 F74002272
 # Function:
-# How:
+#	which road in a city has house trading records spread in #max_distinct_month
+# Method:
+#	if met new road than call newAddr(), save road name, price, year
+#	else save max price, min price, # of records
+#	output: road name, max price, min price
 
 import json
 import urllib2
@@ -80,11 +84,22 @@ def output(index):
 
 	totalList.sort()
 	maxTotal = totalList[index-1]
+	line = 0
 	i = 0
-	formatter = "%r%r%r%r%r"
 	while i < index:
 		if addr[i].total == maxTotal:
-			print u"%s, 最高成交價:%d, 最低成交價:%d" %(unicodedata.normalize('NFKD', addr[i].road), addr[i].maxP, addr[i].minP)
+			line += 1
+		i += 1
+	i = 0
+	l = 0
+	print "\"",
+	while i < index:
+		if addr[i].total == maxTotal:
+			if l < line-1:
+				print u"\b%s, 最高成交價:%d, 最低成交價:%d" %(unicodedata.normalize('NFKD', addr[i].road), addr[i].maxP, addr[i].minP)
+				l += 1
+			else:
+				print u"%s, 最高成交價:%d, 最低成交價:%d\"" %(unicodedata.normalize('NFKD', addr[i].road), addr[i].maxP, addr[i].minP)
 		i += 1
 
 def main(index):
